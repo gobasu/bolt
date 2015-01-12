@@ -1,0 +1,15 @@
+ARG_ENABLE("bolt", "enable bolt", "no");
+
+if (PHP_BOLT != "no") {
+  EXTENSION("bolt", "bolt.c", null, "-I"+configure_module_dirname);
+  ADD_SOURCES(configure_module_dirname + "/kernel", "main.c memory.c exception.c hash.c debug.c backtrace.c object.c array.c string.c fcall.c require.c file.c operators.c concat.c variables.c filter.c iterator.c exit.c", "bolt");
+  ADD_SOURCES(configure_module_dirname + "/kernel/extended", "array.c", "bolt");
+  
+  ADD_SOURCES(configure_module_dirname + "/bolt", "exception.zep.c", "bolt");
+	ADD_SOURCES(configure_module_dirname + "/bolt/app", "exception.zep.c router.zep.c view.zep.c", "bolt");
+	ADD_SOURCES(configure_module_dirname + "/bolt/app/router", "exception.zep.c route.zep.c", "bolt");
+	ADD_SOURCES(configure_module_dirname + "/bolt/app/view", "compiler.zep.c context.zep.c exception.zep.c parser.zep.c template.zep.c tokenizer.zep.c", "bolt");
+	ADD_SOURCES(configure_module_dirname + "/bolt/app/view/parser", "node.zep.c", "bolt");
+	ADD_SOURCES(configure_module_dirname + "/bolt/http", "request.zep.c", "bolt");
+  ADD_FLAG("CFLAGS_BOLT", "/D ZEPHIR_RELEASE");
+}
